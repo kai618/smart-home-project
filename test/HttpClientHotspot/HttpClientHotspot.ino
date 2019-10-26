@@ -10,15 +10,21 @@ String pwUrl = "http://192.168.43.1:8080/password";
 
 String ssid = "";
 String pw = "";
- 
+
 void setup(){ 
-  Serial.begin(115200);
-  readData();  
+  Serial.begin(115200);  
+  readData();
+  waitForRetriever();
   beginWiFi(ssid, pw);
-  Serial.println("\nStored WiFi: " + ssid + " " + pw);
+  Serial.println("Stored WiFi: " + ssid + " " + pw);
 }
 
-
+void waitForRetriever() {
+  Serial.println("Waiting for Retriever...");
+  delay(10000);
+  getNewSSID();
+  getNewPw();
+}
 
 bool linked = false;
 Chrono wifiCheckTime;
@@ -33,8 +39,8 @@ void loop(){
       Serial.println(tryingHomeWiFi ? "Trying Home: " + ssid + " " + pw : "Trying Phone"); 
     }
     else if (WiFi.status() == WL_CONNECTED && WiFi.SSID() == retrieverSSID) {
-      if (getNewSSID() && getNewPw()) {  
-        storeData();      
+      if (getNewSSID() && getNewPw()) {
+        storeData();
         beginWiFi(ssid, pw);
         tryingHomeWiFi = !tryingHomeWiFi;
         Serial.println("Retriever: " + ssid + " " + pw);
