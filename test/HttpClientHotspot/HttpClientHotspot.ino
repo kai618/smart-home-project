@@ -16,14 +16,13 @@ void setup(){
   readData();
   waitForRetriever();
   beginWiFi(ssid, pw);
-  Serial.println("Stored WiFi: " + ssid + " " + pw);
 }
 
 void waitForRetriever() {
-  Serial.println("Waiting for Retriever...");
+  Serial.println("Waiting 10s for Retriever...");
+  beginWiFi(retrieverSSID, retrieverPw);
   delay(10000);
-  getNewSSID();
-  getNewPw();
+  if (getNewSSID() && getNewPw()) Serial.println("Retriever: " + ssid + " " + pw);
 }
 
 bool linked = false;
@@ -32,7 +31,7 @@ bool tryingHomeWiFi = true;
 
 void loop(){
   if(WiFi.status() == WL_DISCONNECTED) linked = false;
-  if (!linked && wifiCheckTime.hasPassed(10000)) {
+  if (!linked && wifiCheckTime.hasPassed(5000)) {
     if (WiFi.status() == WL_DISCONNECTED) {
       tryingHomeWiFi ? beginWiFi(ssid, pw) : beginWiFi(retrieverSSID, retrieverPw);
       tryingHomeWiFi = !tryingHomeWiFi;
@@ -94,6 +93,7 @@ void readData() {
     pwFile.close();
     
     SPIFFS.end();
+    Serial.println("Stored WiFi: " + ssid + " " + pw);
   }
 }
 
