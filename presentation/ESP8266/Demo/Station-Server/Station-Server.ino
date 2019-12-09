@@ -5,7 +5,7 @@ ESP8266WebServer server(80);
  
 void setup() {
   Serial.begin(115200);  
-  connectWiFi(); 
+  connectWiFi();
   
   server.on("/", respondRoot);  
   server.on("/i", respondInfo);
