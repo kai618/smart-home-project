@@ -16,15 +16,15 @@
 
 Chrono alertGas;
 bool alertStateGas = true;
-unsigned long spacingGas = 400;
+unsigned long spacingGas = 300;
 
 Chrono alertFire;
 bool alertStateFire = true;
 unsigned long spacingFire = 200;
 
 // Threshold
-const int gasLimit = 230;
-const int flameLimit = 300;
+const int gasLimit = 320;
+const int flameLimit = 150;
 
 // State
 bool mainState = false;  //true = on, false = off
@@ -162,13 +162,13 @@ void getHandBack() {
 }
 
 bool detectGas() {
-//  Serial.println(analogRead(gasSen));
+// Serial.println(analogRead(gasSen));
   if(analogRead(gasSen) > gasLimit) return true;
   return false;
 }
 
 bool detectFlame() {
-//  Serial.println(analogRead(flameSen));
+// Serial.println(analogRead(flameSen));
   if(analogRead(flameSen) < flameLimit) return true;
   return false;
 }
