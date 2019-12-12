@@ -103,7 +103,7 @@ void setOnMode() {
 
 void setOffMode() {
   if (nowMode != OffMode) {
-    //    Serial.println(OffMode);
+//    Serial.println(OffMode);
     nowMode = OffMode;
   }
   getHandBack();
@@ -125,7 +125,7 @@ int chooseDetectMode() {
 
 void setSafeMode() {
   if (nowMode != SafeMode) {
-    //    Serial.println(SafeMode);
+//    Serial.println(SafeMode);
     nowMode = SafeMode;
   }
   scoutArea(30);
@@ -133,7 +133,7 @@ void setSafeMode() {
 
 void setGasMode() {
   if (nowMode != GasMode) {
-    //    Serial.println(GasMode);
+//    Serial.println(GasMode);
     nowMode = GasMode;
   }
   scoutArea(10);
@@ -141,7 +141,7 @@ void setGasMode() {
 
 void setFireMode() {
   if (nowMode != FireMode) {
-    //    Serial.println(FireMode);
+//    Serial.println(FireMode);
     nowMode = FireMode;
   }
   delay(15);

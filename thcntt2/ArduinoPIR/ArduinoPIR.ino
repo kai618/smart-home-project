@@ -1,7 +1,6 @@
 int ledPin = 2;
 int inputPin = 3;
-int pirState = LOW;
-int val = 0;
+char nowMode = 'x';
 
 void setup() {
   Serial.begin(115200);
@@ -9,19 +8,16 @@ void setup() {
 }
 
 void loop() {
-  val = digitalRead(inputPin);
+  observeMotion();
+  Serial.println(nowMode);
+}
 
-  if (val == HIGH) {
+void observeMotion() {
+  if (digitalRead(inputPin) == HIGH) {
     digitalWrite(ledPin, HIGH);
-    if (pirState == LOW) {
-      Serial.println(1);
-      pirState = HIGH;
-    }
+    nowMode = '6';
   } else {
     digitalWrite(ledPin, LOW);
-    if (pirState == HIGH) {
-      Serial.println(0);
-      pirState = LOW;
-    }
+    nowMode = '5';
   }
 }

@@ -39,7 +39,7 @@ Chrono tempHumidSensor;
 
 // Arduino mode
 char nowMode = 'x';
-unsigned long timeOut = 2000;
+unsigned long timeOut = 1500;
 Chrono modeReceipt;
 
 // Light
@@ -175,24 +175,21 @@ void observeArduinoMode() {
 
 void receiveMode() {
   char newMode = Serial.read();
-  if (newMode == '1' || newMode == '2' || newMode == '3' || newMode == '0') {
-    modeReceipt.restart();
-    if (newMode != nowMode) {
-      digitalWrite(indicator, HIGH);
-      nowMode = newMode;
-      postArduinoMode();
-    }
+  modeTimer.restart();
+  if (newMode != nowMode) {
+    digitalWrite(indicator, HIGH);
+    nowMode = newMode;
+    postArduinoMode(nowMode);
   }
 }
 
 void checkConnectedUNO() {
   if (nowMode != 'x') {
-    if (modeReceipt.hasPassed(timeOut)) {
-      modeReceipt.restart();
+    if (modeTimer.hasPassed(timeOut)) {
+      modeTimer.restart();
       nowMode = 'x';
       digitalWrite(indicator, LOW);
-      postArduinoMode();
-      //      Serial.println("FireGas Arduino disconnected");
+      postArduinoMode(nowMode);
     }
   }
 }
@@ -248,12 +245,21 @@ void postTempHumid() {
   }
 }
 
-void postArduinoMode() {
+void postArduinoMode(char nowMode) {
   if (linked) {
     checkBtn();
     String strMode = "";
     strMode += nowMode;
-    Firebase.setString(path + "/mode", strMode);
+    if (strMode == "x") {
+      Firebase.setString(path + "/mode", strMode);
+      Firebase.setString(path + "/hasMotion", strMode);
+    }
+    else if (strMode >= 0 && strMode <= 4) {
+      Firebase.setString(path + "/mode", strMode);
+    }
+    else if (strMode >= 5 && strMode <= 6) {
+      Firebase.setString(path + "/hasMotion", strMode);
+    }
   }
 }
 
