@@ -12,8 +12,7 @@ void loop() {
 }
 
 void connectWiFi() {
-  WiFi.begin("GHC_", "12356789");
-  // WiFi.begin("HSU_Students", "dhhs12cnvch");
+  WiFi.begin("HSU_Students", "dhhs12cnvch");
   
   while (WiFi.status() != WL_CONNECTED) {
     Serial.println(".");
@@ -24,7 +23,7 @@ void connectWiFi() {
 
 String getData() {
   HTTPClient http;
-  http.begin("http://192.168.1.35:3000/");
+  http.begin("http://10.104.23.109:3000/");
   int httpCode = http.GET();
   if (httpCode <= 0) return "404";
   return http.getString();

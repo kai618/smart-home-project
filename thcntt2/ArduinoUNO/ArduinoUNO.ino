@@ -23,7 +23,7 @@ bool alertStateFire = true;
 unsigned long spacingFire = 200;
 
 // Threshold
-const int gasLimit = 320;
+const int gasLimit = 600;
 const int flameLimit = 150;
 
 // State
@@ -46,6 +46,8 @@ const char FireMode = '3';
 
 char nowMode = '0';
 
+Chrono txTimer;
+
 // --------------------------------- Main
 
 void setup() {
@@ -64,10 +66,17 @@ void loop() {
   else setOffMode();
 
   changeOutputMode();
-  Serial.println(nowMode);
+  sendMode();
 }
 
 // --------------------------------- Input Sensors buttons Servo
+
+void sendMode() {
+  if(txTimer.hasPassed(500)) {
+    Serial.println(nowMode);
+    txTimer.restart();
+  }
+}
 
 void checkButton() {
   if (mainState == false) {

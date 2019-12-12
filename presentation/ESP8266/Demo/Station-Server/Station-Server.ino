@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(115200);  
   connectWiFi();
   
-  server.on("/", respondRoot);  
+  server.on("/", respondRoot);
   server.on("/i", respondInfo);
   server.begin();
 }
@@ -25,8 +25,7 @@ void respondInfo() {
 }
 
 void connectWiFi() {
-  WiFi.begin("GHC_", "12356789");
-  // WiFi.begin("HSU_Students", "dhhs12cnvch");
+   WiFi.begin("HSU_Students", "dhhs12cnvch");
   
   while (WiFi.status() != WL_CONNECTED) {
     Serial.println(".");

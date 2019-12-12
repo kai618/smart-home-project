@@ -39,8 +39,8 @@ Chrono tempHumidSensor;
 
 // Arduino mode
 char nowMode = 'x';
-unsigned long timeOut = 1500;
-Chrono modeReceipt;
+unsigned long timeOut = 1000;
+Chrono modeTimer;
 
 // Light
 #define indicator D8
@@ -169,6 +169,7 @@ void shadowTheMoon() {
 
 // get mode from FireGas arduino
 void observeArduinoMode() {
+  Serial.println(nowMode);
   if (Serial.available()) receiveMode();
   else checkConnectedUNO();
 }
@@ -254,10 +255,11 @@ void postArduinoMode(char nowMode) {
       Firebase.setString(path + "/mode", strMode);
       Firebase.setString(path + "/hasMotion", strMode);
     }
-    else if (strMode >= 0 && strMode <= 4) {
+    else if (strMode >= "0" && strMode <= "4") {
       Firebase.setString(path + "/mode", strMode);
     }
-    else if (strMode >= 5 && strMode <= 6) {
+    else if (strMode >= "5" && strMode <= "6") {
+      strMode = strMode == "5" ? "0" : "1";
       Firebase.setString(path + "/hasMotion", strMode);
     }
   }
@@ -316,7 +318,7 @@ void checkWiFi() {
       lightTheMoon();
       path = "modules/" + WiFi.macAddress();
       postMacAddress();
-      postArduinoMode();
+      postArduinoMode(nowMode);
       postLightStatus();
       Serial.println("Home connected: " + ssid + " " + pw);
     }
@@ -370,7 +372,7 @@ void readData() {
 
     SPIFFS.end();
     Serial.println("Stored WiFi: " + ssid + " " + pw);
-  }
+  } else Serial.println("Failed to read data");
 }
 
 void storeData() {
@@ -383,5 +385,5 @@ void storeData() {
     if (pwFile) pwFile.print(pw);
     pwFile.close();
     SPIFFS.end();
-  }
+  } else Serial.println("Failed to store data");
 }
