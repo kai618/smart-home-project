@@ -10,6 +10,7 @@ void setup() {
 void loop() {
   observeMotion();
   Serial.println(nowMode);
+  delay(500);
 }
 
 void observeMotion() {
