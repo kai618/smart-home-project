@@ -1,5 +1,5 @@
 # Smart Home Project
-Final-term project of THCNTT2 course, the next version of fire-gas-alarm repo.
+Final project of THCNTT2 course, the next version of fire-gas-alarm repo.
 ## Video Demo
 [Video link](https://youtu.be/yFnni9clTEQ)
 ## Board Diagram
